@@ -34,10 +34,10 @@ export class ProjectsComponent {
 				"Command pattern implementation for angular. Command used to encapsulate information which is needed to perform an action.",
 		},
 		{
-			key: "angular-skeleton-app",
+			key: "trading-platform-web",
 			title: "angular skeleton app",
 			tag: "angular",
-			url: "https://github.com/sketch7/angular-skeleton-app",
+			url: "https://github.com/sketch7/trading-platform-web",
 			description: "Angular 10.x navigation skeleton project with styling which get you started faster.",
 		},
 		{
