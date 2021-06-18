@@ -40,7 +40,7 @@ jobs:
 #            - name: e2e
 #              run: npm run e2e
             - name: build
-              run: npm run build:prod
+              run: npm run build
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
@@ -51,7 +51,7 @@ jobs:
                   role-duration-seconds: 1200
                   role-skip-session-tagging: true
             - name: Deploy app
-              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-live.technovateit-solutions.com/bundles/${{ github.repository }} --delete --include '*.js' --content-type 'text/javascript' --include '*.css' --content-type 'text/css' --include '*.html' --content-type 'text/html'
+              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-live.technovateit-solutions.com/bundles/${{ github.repository }} --delete
             - name: Invalidate cloudfront cache
               run: |
                   aws cloudfront create-invalidation \
