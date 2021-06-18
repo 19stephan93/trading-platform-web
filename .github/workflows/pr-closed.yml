@@ -1,0 +1,29 @@
+name: Pull Request closing
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  merge_job:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::677647715787:role/S3_DEPLOYER
+          role-duration-seconds: 1200
+          role-skip-session-tagging: true
+      - name: Remove app
+        run: aws s3 rm --recursive s3://cdn-dev.technovateit-solutions.com/bundles/${{ github.repository }}/${GITHUB_HEAD_REF#refs/heads/}
+      - name: Invalidate cloudfront cache
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.CDN_DEV_DISTRIBUTION_ID }} \
+          --paths "/bundles/${{ github.repository }}/${GITHUB_REF#refs/heads/}/*"

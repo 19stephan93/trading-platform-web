@@ -1,0 +1,27 @@
+name: Pull Request - Comment
+on:
+    - pull_request
+
+jobs:
+    comment-environment:
+        runs-on: ubuntu-latest
+        if: contains(fromJson('["opened", "reopened"]'), github.event.action)
+        steps:
+            - name: find branch name
+              shell: bash
+              run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF#refs/heads/})"
+              id: branch_name
+            - name: 'Comment PR'
+              uses: actions/github-script@0.3.0
+              env:
+                  APP_URL: https://cdn-dev.technovateit-solutions.com/bundles/${{ github.repository }}/${{ steps.branch_name.outputs.branch }}/index.html
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  script: |
+                      const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+                      github.issues.createComment({ issue_number,
+                          owner,
+                          repo,
+                          body: `✨ Awesome! ✨
+                              Shortly you'll find your app [here](${process.env.APP_URL})`,
+                      });
