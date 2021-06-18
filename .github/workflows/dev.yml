@@ -52,7 +52,7 @@ jobs:
                   role-duration-seconds: 1200
                   role-skip-session-tagging: true
             - name: Deploy app
-              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-dev.technovateit-solutions.com/bundles/${{ github.repository }}/${GITHUB_REF#refs/heads/} --delete --include '*.js' --content-type 'text/javascript' --include '*.css' --content-type 'text/css' --include '*.ico' --content-type 'image/vnd.microsoft.icon'
+              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-dev.technovateit-solutions.com/bundles/${{ github.repository }}/${GITHUB_REF#refs/heads/} --delete --include '*.js' --content-type 'text/javascript' --include '*.css' --content-type 'text/css' --include '*.html' --content-type 'text/html'
             - name: Invalidate cloudfront cache
               run: |
                   aws cloudfront create-invalidation \
