@@ -35,10 +35,10 @@ jobs:
                 NODE_AUTH_TOKEN: ${{ secrets.GA_GITHUB_TOKEN }}
             - name: linter
               run: npm run lint
-            - name: test
-              run: npm test -- --watch=false --code-coverage
-            - name: e2e
-              run: npm run e2e
+#            - name: test
+#              run: npm test -- --watch=false --code-coverage
+#            - name: e2e
+#              run: npm run e2e
             - name: build
               run: npm run build:prod
             - name: Configure AWS Credentials
