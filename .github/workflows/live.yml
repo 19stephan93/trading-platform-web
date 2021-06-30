@@ -41,19 +41,19 @@ jobs:
 #              run: npm run e2e
             - name: build
               run: npm run build:prod
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: eu-central-1
-                  role-to-assume: arn:aws:iam::677647715787:role/S3_DEPLOYER
-                  role-duration-seconds: 1200
-                  role-skip-session-tagging: true
-            - name: Deploy app
-              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-live.technovateit-solutions.com/bundles/${{ github.repository }} --delete --include '*.js' --content-type 'text/javascript' --include '*.css' --content-type 'text/css' --include '*.html' --content-type 'text/html'
-            - name: Invalidate cloudfront cache
-              run: |
-                  aws cloudfront create-invalidation \
-                  --distribution-id ${{ secrets.CDN_LIVE_DISTRIBUTION_ID }} \
-                  --paths "/bundles/${{ github.repository }}/*"
+#            - name: Configure AWS Credentials
+#              uses: aws-actions/configure-aws-credentials@v1
+#              with:
+#                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#                  aws-region: eu-central-1
+#                  role-to-assume: arn:aws:iam::677647715787:role/S3_DEPLOYER
+#                  role-duration-seconds: 1200
+#                  role-skip-session-tagging: true
+#            - name: Deploy app
+#              run: aws s3 sync ./dist/trading-platform-web/ s3://cdn-live.technovateit-solutions.com/bundles/${{ github.repository }} --delete --include '*.js' --content-type 'text/javascript' --include '*.css' --content-type 'text/css' --include '*.html' --content-type 'text/html'
+#            - name: Invalidate cloudfront cache
+#              run: |
+#                  aws cloudfront create-invalidation \
+#                  --distribution-id ${{ secrets.CDN_LIVE_DISTRIBUTION_ID }} \
+#                  --paths "/bundles/${{ github.repository }}/*"
